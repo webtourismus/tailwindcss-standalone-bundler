@@ -1,3 +1,9 @@
+This fork of Tailwind CSS builds a standalone binary CLI of TailwindCSS with postcss-import and postcss-nested bunlded into the single-file executable. It is meant to be used in environments without NodeJS, where a custom postcss.config.js cannot be specified.
+
+See releases section for downloads.
+
+------
+
 <p align="center">
   <a href="https://tailwindcss.com" target="_blank">
     <picture>

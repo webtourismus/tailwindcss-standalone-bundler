@@ -6,7 +6,7 @@ export function help({ message, usage, commands, options }) {
 
   // Render header
   console.log()
-  console.log(`${packageJson.name} v${packageJson.version}`)
+  console.log(`${packageJson.name} v${packageJson.version} with postcss-import bundled`)
 
   // Render message
   if (message) {
