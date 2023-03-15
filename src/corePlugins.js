@@ -199,23 +199,8 @@ export let variantPlugins = {
   },
 
   directionVariants: ({ addVariant }) => {
-    addVariant('ltr', () => {
-      log.warn('rtl-experimental', [
-        'The RTL features in Tailwind CSS are currently in preview.',
-        'Preview features are not covered by semver, and may be improved in breaking ways at any time.',
-      ])
-
-      return '[dir="ltr"] &'
-    })
-
-    addVariant('rtl', () => {
-      log.warn('rtl-experimental', [
-        'The RTL features in Tailwind CSS are currently in preview.',
-        'Preview features are not covered by semver, and may be improved in breaking ways at any time.',
-      ])
-
-      return '[dir="rtl"] &'
-    })
+    addVariant('ltr', ':is([dir="ltr"] &)')
+    addVariant('rtl', ':is([dir="rtl"] &)')
   },
 
   reducedMotionVariants: ({ addVariant }) => {
@@ -236,7 +221,7 @@ export let variantPlugins = {
     }
 
     if (mode === 'class') {
-      addVariant('dark', `${className} &`)
+      addVariant('dark', `:is(${className} &)`)
     } else if (mode === 'media') {
       addVariant('dark', '@media (prefers-color-scheme: dark)')
     }
@@ -641,7 +626,7 @@ export let corePlugins = {
   inset: createUtilityPlugin(
     'inset',
     [
-      ['inset', ['top', 'right', 'bottom', 'left']],
+      ['inset', ['inset']],
       [
         ['inset-x', ['left', 'right']],
         ['inset-y', ['top', 'bottom']],
@@ -715,6 +700,24 @@ export let corePlugins = {
     addUtilities({
       '.box-border': { 'box-sizing': 'border-box' },
       '.box-content': { 'box-sizing': 'content-box' },
+    })
+  },
+
+  lineClamp: ({ matchUtilities, addUtilities, theme }) => {
+    matchUtilities(
+      {
+        'line-clamp': (value) => ({
+          overflow: 'hidden',
+          display: '-webkit-box',
+          '-webkit-box-orient': 'vertical',
+          '-webkit-line-clamp': `${value}`,
+        }),
+      },
+      { values: theme('lineClamp') }
+    )
+
+    addUtilities({
+      '.line-clamp-none': { '-webkit-line-clamp': 'unset' },
     })
   },
 
@@ -1196,6 +1199,7 @@ export let corePlugins = {
 
   alignContent: ({ addUtilities }) => {
     addUtilities({
+      '.content-normal': { 'align-content': 'normal' },
       '.content-center': { 'align-content': 'center' },
       '.content-start': { 'align-content': 'flex-start' },
       '.content-end': { 'align-content': 'flex-end' },
@@ -1203,6 +1207,7 @@ export let corePlugins = {
       '.content-around': { 'align-content': 'space-around' },
       '.content-evenly': { 'align-content': 'space-evenly' },
       '.content-baseline': { 'align-content': 'baseline' },
+      '.content-stretch': { 'align-content': 'stretch' },
     })
   },
 
